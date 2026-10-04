@@ -1,0 +1,15 @@
+# Binaries and models are large; download them per docs/setup/*.md
+bin/*
+!bin/README.md
+models/*
+!models/README.md
+
+# Local scratch
+*.log
+*.tmp
+.vs/
+.idea/
+
+# Generated images; keep only the named samples
+results/sdcpp/images/*
+!results/sdcpp/images/sample-*.png
