@@ -10,6 +10,7 @@ All results in this repo come from this machine unless a result file says otherw
 | CPU | AMD Ryzen 7 5800X, 8 cores / 16 threads |
 | RAM | 32 GB DDR4 |
 | OS | Windows 11 Home 24H2 (build 26200) |
+| Build toolchain | CMake 4.4.3, Vulkan SDK 1.4.363.0, Visual Studio 2022 Build Tools (MSVC v143) |
 
 ## Why this card is awkward
 

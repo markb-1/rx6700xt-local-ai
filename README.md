@@ -15,8 +15,8 @@ Status key: **works** means tested here and usable. **works\*** means it needs a
 | llama.cpp | Vulkan | Windows 11 | **works** | b11146 | Baseline path. [Setup](docs/setup/llama-cpp-vulkan.md), results below |
 | stable-diffusion.cpp | Vulkan | Windows 11 | **works** | master-929 | SD 1.5 at 512x512 in 11 s. 768x768 is 30x slower, see results. [Setup](docs/setup/stable-diffusion-cpp-vulkan.md) |
 | stable-diffusion.cpp | ROCm 7.14 | Windows 11 | fails | master-929 | `0xC0000135`, needs `amdhip64_7.dll` from the HIP SDK 7. The DLL does bundle `gfx1031` kernels, so retest after installing the SDK |
-| whisper.cpp | CPU | Windows 11 | **works** | b5130 | Baseline for the GPU build. [Setup](docs/setup/whisper-cpp.md) |
-| whisper.cpp | Vulkan | Windows 11 | untested | | No prebuilt Windows Vulkan binary in any release. Needs a source build with the Vulkan SDK |
+| whisper.cpp | Vulkan | Windows 11 | **works\*** | b5130 | No prebuilt Windows Vulkan binary exists, so this is a source build. large-v3 inference 4x faster than CPU. [Setup](docs/setup/whisper-cpp.md) |
+| whisper.cpp | CPU | Windows 11 | **works** | b5130 | Prebuilt zip. Baseline for the row above |
 | LM Studio | Vulkan | Windows 11 | untested | | Same llama.cpp backend under a GUI |
 | koboldcpp | Vulkan | Windows 11 | untested | | |
 | Ollama | ROCm | Windows 11 | fails | 0.6.7 | Stock build falls back to CPU, forced ROCm fails with `RMS_NORM failed`. Retest with patched rocBLAS pending |
@@ -81,16 +81,24 @@ Takeaways:
 
 Sample output: [results/sdcpp/images/sample-sd15-512-euler_a-20.png](results/sdcpp/images/sample-sd15-512-euler_a-20.png). Raw data: [results/sdcpp/2026-10-04-sd15-vulkan-bench.csv](results/sdcpp/2026-10-04-sd15-vulkan-bench.csv).
 
-### whisper.cpp b5130, CPU, JFK clip (11 s of speech)
+### whisper.cpp b5130, Vulkan versus CPU, JFK clip (11 s of speech)
 
-CPU baseline on the Ryzen 7 5800X with 8 threads, 3 runs each. This is the number a Vulkan build has to beat.
+Vulkan build compiled from source, CPU build from the prebuilt zip, 8 threads, 3 runs each. Vulkan numbers are the warm runs; the first Vulkan run of a session pays a one-off shader compile of about 2.5 s.
 
-| Model | Encode | Total | Realtime factor |
-|-------|-------:|------:|----------------:|
-| base.en | 0.30 s | 0.68 s | 16x faster than realtime |
-| large-v3 | 6.97 s | 11.6 s | about realtime |
+| Model | Backend | Load | Encode | Decode | Total |
+|-------|---------|-----:|-------:|-------:|------:|
+| base.en | CPU | 0.12 s | 0.30 s | 0.17 s | 0.68 s |
+| base.en | Vulkan | 0.15 s | 0.11 s | 0.12 s | 0.46 s |
+| large-v3 | CPU | 2.0 s | 6.97 s | 2.36 s | 11.6 s |
+| large-v3 | Vulkan | 2.5 s | 1.28 s | 0.90 s | 4.84 s |
 
-Raw data: [results/whispercpp/2026-10-04-cpu-bench.csv](results/whispercpp/2026-10-04-cpu-bench.csv).
+Takeaways:
+
+- large-v3 goes from roughly realtime on the CPU to 2.3x faster than realtime on the GPU. Inference alone (encode plus decode) is 4.2x faster. The remaining 2.5 s is uploading the 3 GB model to VRAM, which is paid once per process, so a long-running server hides it.
+- base.en is small enough that load and overhead dominate on both backends. The GPU still wins on the compute stages by about 3x.
+- whisper.cpp ships no Windows Vulkan binary in any release, so this row needs CMake, the Visual Studio C++ build tools and the Vulkan SDK. The setup doc has the exact commands.
+
+Raw data: [results/whispercpp/2026-10-04-vulkan-bench.csv](results/whispercpp/2026-10-04-vulkan-bench.csv) and [results/whispercpp/2026-10-04-cpu-bench.csv](results/whispercpp/2026-10-04-cpu-bench.csv).
 
 Cross-tool headline numbers for everything above: [results/summary.csv](results/summary.csv).
 
@@ -123,12 +131,11 @@ bin/, models/           git-ignored; binaries and model files live here locally
 
 1. Find out why stable-diffusion.cpp falls off a cliff at 768x768 on Vulkan, and test SDXL.
 2. Install the AMD HIP SDK 7.x and retest the stable-diffusion.cpp ROCm build, which already bundles `gfx1031` kernels.
-3. Build whisper.cpp with the Vulkan backend and compare against the CPU baseline.
-4. Fill the remaining Windows Vulkan rows: LM Studio, koboldcpp.
-5. Retest Ollama and koboldcpp-rocm with community-built `gfx1031` rocBLAS libraries, and document the exact files and versions.
-6. ZLUDA and DirectML for ComfyUI.
-7. Linux dual boot with the `10.3.0` override: llama.cpp HIP, PyTorch, ComfyUI.
-8. Profile llama.cpp's Vulkan fallback matmul shaders on RDNA2 and report upstream.
+3. Fill the remaining Windows Vulkan rows: LM Studio, koboldcpp.
+4. Retest Ollama and koboldcpp-rocm with community-built `gfx1031` rocBLAS libraries, and document the exact files and versions.
+5. ZLUDA and DirectML for ComfyUI.
+6. Linux dual boot with the `10.3.0` override: llama.cpp HIP, PyTorch, ComfyUI.
+7. Profile llama.cpp's Vulkan fallback matmul shaders on RDNA2 and report upstream.
 
 ## Contributing
 

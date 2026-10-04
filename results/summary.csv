@@ -35,3 +35,7 @@
 "2026-10-04","whisper.cpp","b5130","cpu","win11","32.0.21045.5002","base.en","f16","threads=8","jfk-encode","s","0.302","","ok","mean of 3 runs"
 "2026-10-04","whisper.cpp","b5130","cpu","win11","32.0.21045.5002","large-v3","f16","threads=8","jfk-total","s","11.579","","ok","mean of 3 runs"
 "2026-10-04","whisper.cpp","b5130","cpu","win11","32.0.21045.5002","large-v3","f16","threads=8","jfk-encode","s","6.967","","ok","mean of 3 runs"
+"2026-10-04","whisper.cpp","b5130","vulkan","win11","32.0.21045.5002","base.en","f16","threads=8","jfk-total","s","0.464","","ok","mean of runs 2-3; run 1 was 3.07 s including one-off Vulkan shader compile"
+"2026-10-04","whisper.cpp","b5130","vulkan","win11","32.0.21045.5002","base.en","f16","threads=8","jfk-encode","s","0.107","","ok","mean of runs 2-3; run 1 was 1.12 s including one-off Vulkan shader compile"
+"2026-10-04","whisper.cpp","b5130","vulkan","win11","32.0.21045.5002","large-v3","f16","threads=8","jfk-total","s","4.836","","ok","mean of runs 2-3; run 1 was 5.33 s including one-off Vulkan shader compile"
+"2026-10-04","whisper.cpp","b5130","vulkan","win11","32.0.21045.5002","large-v3","f16","threads=8","jfk-encode","s","1.278","","ok","mean of runs 2-3; run 1 was 1.30 s"

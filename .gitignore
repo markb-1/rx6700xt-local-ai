@@ -13,3 +13,6 @@ models/*
 # Generated images; keep only the named samples
 results/sdcpp/images/*
 !results/sdcpp/images/sample-*.png
+
+# Source checkouts for local builds
+src/
