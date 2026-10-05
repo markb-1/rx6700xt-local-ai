@@ -13,7 +13,7 @@ Status key: **works** means tested here and usable. **works\*** means it needs a
 | Tool | Backend | OS | Status | Version tested | Notes |
 |------|---------|----|--------|----------------|-------|
 | llama.cpp | Vulkan | Windows 11 | **works** | b11146 | Baseline path. [Setup](docs/setup/llama-cpp-vulkan.md), results below |
-| stable-diffusion.cpp | Vulkan | Windows 11 | **works** | master-929 | SD 1.5 at 512x512 in 11 s. 768x768 is 30x slower, see results. [Setup](docs/setup/stable-diffusion-cpp-vulkan.md) |
+| stable-diffusion.cpp | Vulkan | Windows 11 | **works\*** | master-929 | SD 1.5 at 512x512 in 11 s with no setup. At 768x768 and above the driver's 2 GiB buffer cap pushes attention onto the CPU, 30x slower; one env var or two flags fix it. [Setup](docs/setup/stable-diffusion-cpp-vulkan.md) |
 | stable-diffusion.cpp | ROCm 7.14 | Windows 11 | fails | master-929 | `0xC0000135`, needs `amdhip64_7.dll` from the HIP SDK 7. The DLL does bundle `gfx1031` kernels, so retest after installing the SDK |
 | whisper.cpp | Vulkan | Windows 11 | **works\*** | b5130 | No prebuilt Windows Vulkan binary exists, so this is a source build. large-v3 inference 4x faster than CPU. [Setup](docs/setup/whisper-cpp.md) |
 | whisper.cpp | CPU | Windows 11 | **works** | b5130 | Prebuilt zip. Baseline for the row above |
@@ -71,15 +71,18 @@ Fixed prompt and seed, 3 runs per config, mean of the sampling stage only. Wall 
 | 512x512, euler_a, 20 steps | 2.08 | 9.6 s | 0.9 s | 560 MB |
 | 512x512, euler_a, 20 steps, `--diffusion-fa` | 1.23 | 16.4 s | 0.9 s | 123 MB |
 | 512x512, dpm++2m, 20 steps | 2.11 | 9.5 s | 0.9 s | 560 MB |
-| 768x768, euler_a, 20 steps | 0.07 | 289.8 s | 6.5 s | 2626 MB |
+| 768x768, euler_a, 20 steps, as shipped | 0.07 | 289.8 s | 6.5 s | 284 MB VRAM + 2626 MB RAM |
+| 768x768, euler_a, 20 steps, `--diffusion-fa --vae-conv-direct` | 0.47 | 43.0 s | 1.3 s | 277 MB |
+| 768x768, euler_a, 20 steps, `GGML_VK_FORCE_MAX_BUFFER_SIZE=3G` | 0.79 | 25.3 s | 1.7 s | 5277 MB |
+| 512x512, euler_a, 20 steps, `GGML_VK_FORCE_MAX_BUFFER_SIZE=3G` | 2.14 | 9.3 s | 0.9 s | 560 MB |
 
 Takeaways:
 
 - 512x512 is comfortable: about 11 s per image end to end.
-- Flash attention is a loss on this card. It cuts the UNet buffer from 560 MB to 123 MB but runs 40% slower, consistent with RDNA2 lacking the matrix-core path the Vulkan flash-attention shader is written for. Leave `--diffusion-fa` off unless VRAM is the constraint.
-- 768x768 collapses to 290 s, around 30x slower for 2.25x the pixels, and VAE decode slows 7x as well. Total VRAM in use is under 5 GB by the reported buffers, so this is not simple VRAM exhaustion. Cause not yet identified. If you need larger images on this card today, generate at 512 and upscale.
+- Flash attention is a loss on this card at 512x512. It cuts the UNet buffer from 560 MB to 123 MB but runs 40% slower, consistent with RDNA2 lacking the matrix-core path the Vulkan flash-attention shader is written for. Leave `--diffusion-fa` off at 512.
+- 768x768 as shipped collapses to 290 s because the AMD Windows Vulkan driver caps single buffers at 2 GiB. The UNet's attention score matrix (9216 tokens squared, 8 heads, fp32, 2.6 GB) and the VAE's im2col tensor (2.7 GB) both cross that line, so stable-diffusion.cpp quietly runs those ops on the CPU. The 2626 MB "UNet buffer" in the shipped row is system RAM. Two fixes: `--diffusion-fa --vae-conv-direct` avoids building the big tensors (6.6x faster), or `GGML_VK_FORCE_MAX_BUFFER_SIZE=3221225472` with `GGML_VK_FORCE_MAX_ALLOCATION_SIZE` set the same tells ggml to ignore the cap, which the driver accepts (10.7x faster, and no change at 512). Details and the log lines to look for are in the [setup doc](docs/setup/stable-diffusion-cpp-vulkan.md#the-2-gib-buffer-limit-768x768-and-above).
 
-Sample output: [results/sdcpp/images/sample-sd15-512-euler_a-20.png](results/sdcpp/images/sample-sd15-512-euler_a-20.png). Raw data: [results/sdcpp/2026-10-04-sd15-vulkan-bench.csv](results/sdcpp/2026-10-04-sd15-vulkan-bench.csv).
+Sample output: [512x512](results/sdcpp/images/sample-sd15-512-euler_a-20.png) and [768x768 with the env var](results/sdcpp/images/sample-sd15-768-euler_a-20-forcemax3g.png). Raw data: [2026-10-04 bench](results/sdcpp/2026-10-04-sd15-vulkan-bench.csv) and [2026-10-05 768 fixes](results/sdcpp/2026-10-05-sd15-vulkan-768-fallback.csv).
 
 ### whisper.cpp b5130, Vulkan versus CPU, JFK clip (11 s of speech)
 
@@ -129,7 +132,7 @@ bin/, models/           git-ignored; binaries and model files live here locally
 
 ## Roadmap
 
-1. Find out why stable-diffusion.cpp falls off a cliff at 768x768 on Vulkan, and test SDXL.
+1. Test SDXL on stable-diffusion.cpp Vulkan, now that the 768x768 cliff is explained.
 2. Install the AMD HIP SDK 7.x and retest the stable-diffusion.cpp ROCm build, which already bundles `gfx1031` kernels.
 3. Fill the remaining Windows Vulkan rows: LM Studio, koboldcpp.
 4. Retest Ollama and koboldcpp-rocm with community-built `gfx1031` rocBLAS libraries, and document the exact files and versions.

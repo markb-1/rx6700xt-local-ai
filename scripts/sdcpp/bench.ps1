@@ -8,7 +8,10 @@
   it also appends mean rows to the cross-tool results/summary.csv.
 
   Parsed per run: text-encoder time, sampling time, VAE decode time, wall time,
-  params VRAM, UNet compute buffer. Steps per second = steps / sampling time.
+  params VRAM, UNet and VAE compute buffers split by VRAM and RAM. A non-empty
+  *_cpu_buffer_mb means ggml placed part of that graph on the CPU, usually because a
+  tensor exceeded the Vulkan 2 GiB max buffer size (see docs/setup/stable-diffusion-cpp-vulkan.md).
+  Steps per second = steps / sampling time.
 
 .EXAMPLE
   .\bench.ps1 -Model ..\..\models\v1-5-pruned-emaonly-fp16.safetensors
@@ -33,7 +36,8 @@ param(
         @{ label = '512-euler_a-20';     width = 512; height = 512; steps = 20; sampler = 'euler_a'; args = @() },
         @{ label = '512-euler_a-20-fa';  width = 512; height = 512; steps = 20; sampler = 'euler_a'; args = @('--diffusion-fa') },
         @{ label = '512-dpmpp2m-20';     width = 512; height = 512; steps = 20; sampler = 'dpm++2m'; args = @() },
-        @{ label = '768-euler_a-20';     width = 768; height = 768; steps = 20; sampler = 'euler_a'; args = @() }
+        @{ label = '768-euler_a-20';     width = 768; height = 768; steps = 20; sampler = 'euler_a'; args = @() },
+        @{ label = '768-euler_a-20-fa-vaedirect'; width = 768; height = 768; steps = 20; sampler = 'euler_a'; args = @('--diffusion-fa', '--vae-conv-direct') }
     )
 )
 
@@ -86,11 +90,15 @@ foreach ($c in $Configs) {
             wall_s = [math]::Round($wall, 2)
             steps_per_s = if ($sampling) { [math]::Round($c.steps / $sampling, 3) } else { $null }
             params_mb = Get-Num $log 'total params memory size = ([\d.]+)MB'
-            unet_buffer_mb = Get-Num $log 'unet compute buffer size: ([\d.]+) MB'
+            unet_buffer_mb = Get-Num $log 'unet compute buffer size: ([\d.]+) MB\(VRAM\)'
+            unet_cpu_buffer_mb = Get-Num $log 'unet compute buffer size: ([\d.]+) MB\(RAM\)'
+            vae_buffer_mb = Get-Num $log 'vae compute buffer size: ([\d.]+) MB\(VRAM\)'
+            vae_cpu_buffer_mb = Get-Num $log 'vae compute buffer size: ([\d.]+) MB\(RAM\)'
             exit_code = $exit
         }
         $rows += $row
         $status = if ($exit -eq 0 -and $sampling) { "ok $($row.steps_per_s) steps/s, sampling $sampling s" } else { "FAILED exit $exit" }
+        if ($row.unet_cpu_buffer_mb -or $row.vae_cpu_buffer_mb) { $status += " (CPU FALLBACK: unet $($row.unet_cpu_buffer_mb) MB, vae $($row.vae_cpu_buffer_mb) MB in RAM)" }
         Write-Host "   $status"
         if ($exit -ne 0) { $log | Select-Object -Last 5 | ForEach-Object { Write-Host "   $_" } }
     }
