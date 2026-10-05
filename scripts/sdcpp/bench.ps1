@@ -73,9 +73,10 @@ foreach ($c in $Configs) {
         if (-not $build) {
             $m = $log | Select-String 'commit ([0-9a-f]+)' | Select-Object -First 1
             if ($m) { $build = $m.Matches[0].Groups[1].Value }
+            # The HIP build logs through the CUDA code path ("ggml_cuda_init: found 1 ROCm devices"), so test ROCm first
             if ($log -match 'ggml_vulkan: Found') { $backend = 'vulkan' }
-            elseif ($log -match 'ggml_cuda|CUDA') { $backend = 'cuda' }
-            elseif ($log -match 'ROCm|HIP') { $backend = 'rocm' }
+            elseif ($log -match 'found \d+ ROCm devices') { $backend = 'rocm' }
+            elseif ($log -match 'found \d+ CUDA devices') { $backend = 'cuda' }
             else { $backend = 'cpu' }
         }
 

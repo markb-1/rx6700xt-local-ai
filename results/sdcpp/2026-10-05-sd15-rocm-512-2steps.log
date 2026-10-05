@@ -1,0 +1,208 @@
+[VERBOSE] main.cpp:697  - version: stable-diffusion.cpp version unknown, commit 3f8527a
+ggml_cuda_init: found 1 ROCm devices (Total VRAM: 12272 MiB):
+  Device 0: AMD Radeon RX 6700 XT, gfx1031 (0x1031), VMM: no, Wave Size: 32, VRAM: 12272 MiB
+[VERBOSE] main.cpp:698  - System Info: 
+   SSE3 = 1 |    SSSE3 = 1 |    AVX = 1 |    AVX2 = 1 |    F16C = 1 |    FMA = 1 |    BMI2 = 1 |    REPACK = 1 | 
+[VERBOSE] main.cpp:699  - SDCliParams {
+  mode: img_gen,
+  output_path: "C:/Users/markb/AppData/Local/Temp/claude/C--Code-rx6700xt-local-ai/58e5222b-a2c4-408b-baca-c1d8b329d130/scratchpad/rocm-512-2step.png",
+  image_path: "",
+  metadata_format: "text",
+  log_level: verbose,
+  color: false,
+  convert_name: false,
+  preview_method: none,
+  preview_interval: 1,
+  preview_path: "preview.png",
+  preview_fps: 16,
+  taesd_preview: false,
+  preview_noisy: false,
+  imatrix_out: "",
+  metadata_raw: false,
+  metadata_brief: false,
+  metadata_all: false
+}
+[VERBOSE] main.cpp:700  - SDContextParams {
+  n_threads: 8,
+  conditioning_cache_size: 0,
+  model_path: "models/v1-5-pruned-emaonly-fp16.safetensors",
+  clip_l_path: "",
+  clip_g_path: "",
+  clip_vision_path: "",
+  t5xxl_path: "",
+  llm_path: "",
+  llm_vision_path: "",
+  tokenizer: "",
+  diffusion_model_path: "",
+  high_noise_diffusion_model_path: "",
+  uncond_diffusion_model_path: "",
+  embeddings_connectors_path: "",
+  vae_path: "",
+  vae_format: "auto",
+  audio_vae_path: "",
+  audio_encoder_path: "",
+  taesd_path: "",
+  esrgan_path: "",
+  control_net_path: "",
+  embedding_dir: "",
+  embeddings: {
+  }
+  wtype: NONE,
+  tensor_type_rules: "",
+  lora_model_dir: ".",
+  hires_upscalers_dir: "",
+  photo_maker_path: "",
+  rng_type: cuda,
+  sampler_rng_type: NONE,
+  offload_params_to_cpu: false,
+  max_vram: "0",
+  disable_prefetch: false,
+  disable_segmented_compute: false,
+  eager_load: false,
+  backend: "",
+  params_backend: "",
+  split_mode: "",
+  model_args: "",
+  auto_fit: true,
+  enable_mmap: false,
+  control_net_cpu: false,
+  clip_on_cpu: false,
+  vae_on_cpu: false,
+  flash_attn: false,
+  diffusion_flash_attn: false,
+  sage_attn: false,
+  linear_scale: 0,
+  attn_scale: 0,
+  diffusion_conv_direct: false,
+  vae_conv_direct: false,
+  prediction: NONE,
+  lora_apply_mode: auto,
+  force_sdxl_vae_conv_scale: false
+}
+[VERBOSE] main.cpp:701  - SDGenerationParams {
+  loras: "{
+  }",
+  high_noise_loras: "{
+  }",
+  prompt: "a lighthouse on a rocky coast at sunset, oil painting",
+  negative_prompt: "blurry, low quality",
+  ad_model_path: "",
+  ad_prompt: "",
+  ad_negative_prompt: "",
+  extra_ad_args: "",
+  clip_skip: -1,
+  width: 512,
+  height: 512,
+  batch_count: 1,
+  qwen_image_layers: 3,
+  init_image_path: "",
+  end_image_path: "",
+  mask_image_path: "",
+  control_image_path: "",
+  ref_image_paths: [],
+  ref_video_paths: [],
+  ref_video_audio_paths: [],
+  ref_audio_paths: [],
+  control_video_path: "",
+  image_preprocess: ,
+  ref_image_args: ,
+  increase_ref_index: false,
+  pm_id_images_dir: "",
+  pm_id_embed_path: "",
+  pm_style_strength: 20,
+  skip_layers: [7, 8, 9],
+  sample_params: (txt_cfg: 7.00, img_cfg: 7.00, distilled_guidance: 3.50, slg.layer_count: 0, slg.layer_start: 0.01, slg.layer_end: 0.20, slg.scale: 0.00, scheduler: NONE, sample_method: euler_a, sample_steps: 2, eta: inf, shifted_timestep: 0, flow_shift: inf, extra_sample_args: ),
+  high_noise_skip_layers: [7, 8, 9],
+  high_noise_sample_params: (txt_cfg: 7.00, img_cfg: 7.00, distilled_guidance: 3.50, slg.layer_count: 0, slg.layer_start: 0.01, slg.layer_end: 0.20, slg.scale: 0.00, scheduler: NONE, sample_method: NONE, sample_steps: 20, eta: inf, shifted_timestep: 0, flow_shift: inf, extra_sample_args: ),
+  custom_sigmas: [],
+  cache_mode: "",
+  cache_option: "",
+  cache: disabled (threshold=inf, start=0.15, end=0.95),
+  moe_boundary: 0.875,
+  video_frames: 1,
+  fps: 16,
+  vace_strength: 1,
+  strength: 0.75,
+  control_strength: 0.9,
+  seed: 42,
+  upscale_repeats: 1,
+  upscale_tile_size: 128,
+  hires: { enabled: false, upscaler: "Latent", model_path: "", scale: 2, target_width: 0, target_height: 0, steps: 0, denoising_strength: 0.7, custom_sigmas: [], upscale_tile_size: 128 },
+  vae_tiling_params: { 0, 0, 0, 0, 0.5, 0, 0, "" },
+}
+[VERBOSE] model_loader.cpp:189  - using 8 threads for model loading
+[INFO   ] diffusion_engine.cpp:725  - loading model from 'models/v1-5-pruned-emaonly-fp16.safetensors'
+[INFO   ] model_loader.cpp:221  - load models/v1-5-pruned-emaonly-fp16.safetensors using safetensors format
+[VERBOSE] model_loader.cpp:289  - init from 'models/v1-5-pruned-emaonly-fp16.safetensors', prefix = ''
+[INFO   ] diffusion_engine.cpp:995  - Version: SD 1.x 
+[INFO   ] backend_fit.cpp:323  - auto-fit plan:
+[INFO   ] backend_fit.cpp:324  -   devices:
+[INFO   ] backend_fit.cpp:328  -     ROCm0        AMD Radeon RX 6700 XT            free  12131 MiB, budget  11619 MiB
+[INFO   ] backend_fit.cpp:334  -     RAM          free  23906 MiB, params budget  21516 MiB
+[INFO   ] backend_fit.cpp:336  -   compute-device weight cache priority: diffusion > te > vae
+[INFO   ] backend_fit.cpp:337  -   components (params: compute device -> RAM -> other GPU -> disk):
+[INFO   ] backend_fit.cpp:348  -     DiT          params   1639 MiB, compute reserve  2048 MiB -> compute ROCm0, params ROCm0
+[INFO   ] backend_fit.cpp:348  -     Conditioner  params    234 MiB, compute reserve  2048 MiB -> compute ROCm0, params ROCm0
+[INFO   ] backend_fit.cpp:348  -     VAE          params    159 MiB, compute reserve  1024 MiB -> compute ROCm0, params ROCm0
+[INFO   ] backend_fit.cpp:477  - auto-fit: --backend "diffusion=ROCm0,te=ROCm0,vae=ROCm0"
+[VERBOSE] ggml_extend_backend.cpp:404  - Initializing backend: ROCm0
+[VERBOSE] model_loader.cpp:189  - using 8 threads for model loading
+[INFO   ] diffusion_engine.cpp:1522 - Weight type stat:                      f16: 1145 
+[INFO   ] diffusion_engine.cpp:1523 - Conditioner weight type stat:          f16: 197  
+[INFO   ] diffusion_engine.cpp:1524 - Diffusion model weight type stat:      f16: 686  
+[INFO   ] diffusion_engine.cpp:1525 - VAE weight type stat:                  f16: 248  
+[VERBOSE] diffusion_engine.cpp:1527 - ggml tensor size = 432 bytes
+[VERBOSE] model_loader.cpp:189  - using 8 threads for model loading
+[VERBOSE] model_loader.cpp:1111 - loading 1/1145 tensors from models/v1-5-pruned-emaonly-fp16.safetensors
+  |##################################################| 1/1 - 0.11MB/s[K
+[INFO   ] model_loader.cpp:1383 - loading tensors completed, taking 0.02s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s)
+[VERBOSE] diffusion_engine.cpp:717  - loaded alphas_cumprod from model file
+[VERBOSE] clip_tokenizer.cpp:66   - vocab size: 49408
+[VERBOSE] unet.hpp:140  - unet: in_channels = 4, out_channels = 4, model_channels = 320, time_embed_dim = 1280, context_dim = 768, adm_in_channels = 2816, num_res_blocks = 2, tiny_unet = false
+[INFO   ] model_builders.cpp:625  - using VAE for encoding / decoding
+[INFO   ] auto_encoder_kl.hpp:529  - vae decoder: ch = 128
+[VERBOSE] diffusion_engine.cpp:1211 - validating model metadata
+[VERBOSE] diffusion_engine.cpp:1281 - model metadata validated; weights will be prepared lazily
+[INFO   ] diffusion_engine.cpp:1342 - total params memory size = 2035.00MB (VRAM 2035.00MB, RAM 0.00MB): text_encoders 235.06MB(VRAM), diffusion_model 1640.25MB(VRAM), vae 159.68MB(VRAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A)
+[INFO   ] diffusion_engine.cpp:1446 - running in eps-prediction mode
+[INFO   ] image.cpp:814  - generate_image 512x512
+[VERBOSE] model_loader.cpp:189  - using 8 threads for model loading
+[INFO   ] denoiser.hpp:1129 - get_sigmas with discrete scheduler
+[INFO   ] request.cpp:420  - sampling using Euler A method
+[VERBOSE] conditioner.hpp:402  - parse 'a lighthouse on a rocky coast at sunset, oil painting' to [['a lighthouse on a rocky coast at sunset, oil painting', 1], ]
+[VERBOSE] bpe_tokenizer.cpp:245  - split prompt "a lighthouse on a rocky coast at sunset, oil painting" to 11 tokens ["a</w>", "lighthouse</w>", "on</w>", "a</w>", "rocky</w>", "coast</w>", "at</w>", "sunset</w>", ",</w>", "oil</w>", "painting</w>", ]
+[INFO   ] ggml_graph_cut.cpp:1034 - clip build cached graph cut plan done (taking 1 ms)
+[VERBOSE] model_loader.cpp:1111 - loading 196/1145 tensors from models/v1-5-pruned-emaonly-fp16.safetensors
+  |##################################################| 196/196 - 1.09GB/s[K
+[INFO   ] model_loader.cpp:1383 - loading tensors completed, taking 0.21s (read: 0.04s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.04s)
+[VERBOSE] model_manager.cpp:494  - model manager prepared params backend buffers (235.06 MB, 196 tensors, 1 blocks, VRAM) on ROCm0
+[VERBOSE] ggml_runner.cpp:1022 - clip compute buffer size: 1.42 MB(VRAM) on ROCm0 (peak across 1 segment)
+[VERBOSE] conditioner.hpp:525  - computing condition graph completed, taking 755 ms
+[VERBOSE] conditioner.hpp:402  - parse 'blurry, low quality' to [['blurry, low quality', 1], ]
+[VERBOSE] bpe_tokenizer.cpp:245  - split prompt "blurry, low quality" to 4 tokens ["blurry</w>", ",</w>", "low</w>", "quality</w>", ]
+[VERBOSE] conditioner.hpp:525  - computing condition graph completed, taking 8 ms
+[INFO   ] image.cpp:529  - get_learned_condition completed, taking 0.76s
+[INFO   ] image.cpp:866  - generating image: 1/1 - seed 42
+[INFO   ] ggml_graph_cut.cpp:1034 - unet build cached graph cut plan done (taking 3 ms)
+[VERBOSE] model_loader.cpp:1111 - loading 686/1145 tensors from models/v1-5-pruned-emaonly-fp16.safetensors
+  |##############################                    | 407/686 - 3.30GB/s[K  |##################################################| 686/686 - 3.80GB/s[K
+[INFO   ] model_loader.cpp:1383 - loading tensors completed, taking 0.42s (read: 0.26s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.11s)
+[VERBOSE] model_manager.cpp:494  - model manager prepared params backend buffers (1640.25 MB, 686 tensors, 2 blocks, VRAM) on ROCm0
+[VERBOSE] ggml_runner.cpp:1022 - unet compute buffer size: 559.90 MB(VRAM) on ROCm0 (peak across 1 segment)
+  |=========================>                        | 1/2 - 1.10it/s[K  |==================================================| 2/2 - 2.87it/s[K
+[INFO   ] image.cpp:899  - sampling completed, taking 1.26s
+[INFO   ] image.cpp:913  - generating 1 latent images completed, taking 1.26s
+[INFO   ] image.cpp:554  - decoding 1 latents
+[INFO   ] ggml_graph_cut.cpp:1034 - vae build cached graph cut plan done (taking 1 ms)
+[VERBOSE] model_loader.cpp:1111 - loading 140/1145 tensors from models/v1-5-pruned-emaonly-fp16.safetensors
+  |##################################################| 140/140 - 451.65MB/s[K
+[INFO   ] model_loader.cpp:1383 - loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.02s)
+[VERBOSE] model_manager.cpp:494  - model manager prepared params backend buffers ( 94.47 MB, 140 tensors, 1 blocks, VRAM) on ROCm0
+[VERBOSE] ggml_runner.cpp:1022 - vae compute buffer size: 1664.06 MB(VRAM) on ROCm0 (peak across 1 segment)
+[VERBOSE] vae.hpp:351  - computing vae decode graph completed, taking 0.90s
+[INFO   ] image.cpp:620  - latent 1 decoded, taking 0.90s
+[INFO   ] image.cpp:624  - decode_first_stage completed, taking 0.90s
+[INFO   ] image.cpp:1050 - generate_image completed in 2.93s
+[VERBOSE] model_manager.cpp:1264 - model manager released params backend buffers (1969.78 MB, 1022 tensors, 4 blocks, VRAM) from ROCm0
+[INFO   ] main.cpp:497  - save result image 0 to 'C:/Users/markb/AppData/Local/Temp/claude/C--Code-rx6700xt-local-ai/58e5222b-a2c4-408b-baca-c1d8b329d130/scratchpad/rocm-512-2step.png' (success)
+[INFO   ] main.cpp:573  - 1/1 images saved

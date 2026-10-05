@@ -14,7 +14,7 @@ Status key: **works** means tested here and usable. **works\*** means it needs a
 |------|---------|----|--------|----------------|-------|
 | llama.cpp | Vulkan | Windows 11 | **works** | b11146 | Baseline path. [Setup](docs/setup/llama-cpp-vulkan.md), results below |
 | stable-diffusion.cpp | Vulkan | Windows 11 | **works\*** | master-929 | SD 1.5 at 512x512 in 11 s with no setup. At 768x768 and above the driver's 2 GiB buffer cap pushes attention onto the CPU, 30x slower; one env var or two flags fix it. [Setup](docs/setup/stable-diffusion-cpp-vulkan.md) |
-| stable-diffusion.cpp | ROCm 7.14 | Windows 11 | fails | master-929 | `0xC0000135`, needs `amdhip64_7.dll` from the HIP SDK 7. The DLL does bundle `gfx1031` kernels, so retest after installing the SDK |
+| stable-diffusion.cpp | ROCm 7.14 (HIP) | Windows 11 | **works\*** | master-929 | Fails out of the box (`0xC0000135`, no HIP 7 runtime). Fixed by pip-installing AMD's ROCm 7.14.0 wheels plus the `gfx1031` kernel package; no SDK, no driver change. Then 27% faster than Vulkan at 512x512 and 11x faster at 768x768 as shipped. [Setup](docs/setup/stable-diffusion-cpp-rocm.md) |
 | whisper.cpp | Vulkan | Windows 11 | **works\*** | b5130 | No prebuilt Windows Vulkan binary exists, so this is a source build. large-v3 inference 4x faster than CPU. [Setup](docs/setup/whisper-cpp.md) |
 | whisper.cpp | CPU | Windows 11 | **works** | b5130 | Prebuilt zip. Baseline for the row above |
 | LM Studio | Vulkan | Windows 11 | untested | | Same llama.cpp backend under a GUI |
@@ -84,6 +84,29 @@ Takeaways:
 
 Sample output: [512x512](results/sdcpp/images/sample-sd15-512-euler_a-20.png) and [768x768 with the env var](results/sdcpp/images/sample-sd15-768-euler_a-20-forcemax3g.png). Raw data: [2026-10-04 bench](results/sdcpp/2026-10-04-sd15-vulkan-bench.csv) and [2026-10-05 768 fixes](results/sdcpp/2026-10-05-sd15-vulkan-768-fallback.csv).
 
+### stable-diffusion.cpp master-929, ROCm (HIP) versus Vulkan, Stable Diffusion 1.5 fp16
+
+Same binary release, same prompt, seed and settings. The ROCm build runs with AMD's ROCm 7.14.0 Python wheels as its runtime (see the [setup doc](docs/setup/stable-diffusion-cpp-rocm.md)); no HIP SDK and the Adrenalin driver untouched. 3 runs per config, mean of the sampling stage.
+
+| Config | ROCm steps/s | Vulkan steps/s | ROCm sampling | ROCm VAE decode |
+|--------|-------------:|---------------:|--------------:|----------------:|
+| 512x512, euler_a, 20 steps | 2.64 | 2.08 | 7.6 s | 0.9 s |
+| 512x512, euler_a, 20 steps, `--diffusion-fa` | 3.28 | 1.23 | 6.1 s | 0.9 s |
+| 512x512, dpm++2m, 20 steps | 2.64 | 2.11 | 7.6 s | 0.9 s |
+| 768x768, euler_a, 20 steps, as shipped | 0.77 | 0.07 | 26.1 s | 1.6 s |
+| 768x768, euler_a, 20 steps, `--diffusion-fa` | 1.18 | not run | 17.0 s | 1.6 s |
+| 768x768, euler_a, 20 steps, `--diffusion-fa --vae-conv-direct` | 1.18 | 0.47 | 17.0 s | 17.9 s |
+
+Takeaways:
+
+- ROCm is the faster backend for image generation on this card: 27% at 512x512 with default settings, and the best 768x768 result (20 s per image end to end with flash attention) is 2.2x the best Vulkan result.
+- Flash attention flips sign between backends. On Vulkan it costs 40%; on HIP it gains 24% at 512 and 54% at 768. Use `--diffusion-fa` on ROCm, leave it off on Vulkan below 768.
+- `--vae-conv-direct` is the Vulkan fix for 768x768 but a trap on ROCm: decode goes from 1.6 s to 17.9 s. On ROCm just leave the VAE flags off.
+- HIP has no 2 GiB per-buffer cap, so 768x768 works as shipped with a 2.7 GB UNet buffer in VRAM.
+- The out-of-the-box failure was never about the card. AMD's HIP SDK still lists RX 6000 as unsupported, but the wheels the binary was built against include `gfx1031` rocBLAS kernels. The same index also carries PyTorch wheels for `gfx1031` on Windows, which is the next row to test.
+
+Sample output: [512x512 on ROCm](results/sdcpp/images/sample-sd15-512-euler_a-20-rocm.png). Raw data: [results/sdcpp/2026-10-05-sd15-rocm-bench.csv](results/sdcpp/2026-10-05-sd15-rocm-bench.csv).
+
 ### whisper.cpp b5130, Vulkan versus CPU, JFK clip (11 s of speech)
 
 Vulkan build compiled from source, CPU build from the prebuilt zip, 8 threads, 3 runs each. Vulkan numbers are the warm runs; the first Vulkan run of a session pays a one-off shader compile of about 2.5 s.
@@ -132,10 +155,10 @@ bin/, models/           git-ignored; binaries and model files live here locally
 
 ## Roadmap
 
-1. Test SDXL on stable-diffusion.cpp Vulkan, now that the 768x768 cliff is explained.
-2. Install the AMD HIP SDK 7.x and retest the stable-diffusion.cpp ROCm build, which already bundles `gfx1031` kernels.
+1. PyTorch on ROCm on Windows via the same AMD wheel index that fixed stable-diffusion.cpp. It publishes `amd-torch-device-gfx1031`, which would overturn the "fails" row and open ComfyUI without DirectML or ZLUDA.
+2. Test SDXL on stable-diffusion.cpp, ROCm and Vulkan, now that the 768x768 cliff is explained.
 3. Fill the remaining Windows Vulkan rows: LM Studio, koboldcpp.
-4. Retest Ollama and koboldcpp-rocm with community-built `gfx1031` rocBLAS libraries, and document the exact files and versions.
+4. Retest Ollama and koboldcpp-rocm with `gfx1031` rocBLAS libraries. AMD's own `rocm-sdk-device-gfx1031` wheel may replace the community-patched bundles here too.
 5. ZLUDA and DirectML for ComfyUI.
 6. Linux dual boot with the `10.3.0` override: llama.cpp HIP, PyTorch, ComfyUI.
 7. Profile llama.cpp's Vulkan fallback matmul shaders on RDNA2 and report upstream.

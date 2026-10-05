@@ -91,11 +91,4 @@ All three paths produce the same image as the CPU fallback for the same seed, up
 
 ## The ROCm build
 
-The same release ships `sd-master-<commit>-bin-win-rocm-7.14.0-x64.zip`. On this machine it fails to start with Windows error `0xC0000135` (STATUS_DLL_NOT_FOUND). The 1 GB `stable-diffusion.dll` imports `amdhip64_7.dll`, the HIP 7 runtime, and the Adrenalin driver only installs `amdhip64.dll` and `amdhip64_6.dll`.
-
-Two things make this worth a retest:
-
-- Scanning the DLL shows it bundles kernels for `gfx1031` alongside `gfx1030`, `gfx1032` and the RDNA3 and RDNA4 targets. So unlike most ROCm builds, this one was compiled for the 6700 XT.
-- The missing piece is only the HIP 7 runtime, which ships with the AMD HIP SDK for Windows.
-
-Installing the HIP SDK 7.x and retrying is on the roadmap.
+The same release ships `sd-master-<commit>-bin-win-rocm-7.14.0-x64.zip`. It fails out of the box with `0xC0000135` because it needs the HIP 7 runtime, but that runtime is a pip install away and the build is then faster than Vulkan on this card, including at 768x768 where HIP has no 2 GiB buffer cap. See [stable-diffusion-cpp-rocm.md](stable-diffusion-cpp-rocm.md).
