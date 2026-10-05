@@ -16,3 +16,6 @@ results/sdcpp/images/*
 
 # Source checkouts for local builds
 src/
+
+# Local working notes
+STATUS.md
