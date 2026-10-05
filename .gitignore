@@ -14,6 +14,8 @@ models/*
 # Generated images; keep only the named samples
 results/sdcpp/images/*
 !results/sdcpp/images/sample-*.png
+results/comfyui/images/*
+!results/comfyui/images/sample-*.png
 
 # Source checkouts for local builds
 src/

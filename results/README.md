@@ -40,3 +40,7 @@ Each raw file is llama-bench `-o csv` output with two extra leading columns adde
 ## PyTorch CSV
 
 `scripts/pytorch/bench.py` writes one row per test: `start`, `torch` (version string with the `+rocm` suffix), `hip` (runtime version), `device`, `test`, `metric`, `value`, `status` (`ok`, `fail`, `skip`) and `notes`. A failed test is still a row, with the exception text in `notes`.
+
+## ComfyUI CSV
+
+`scripts/comfyui/bench.py` writes one row per run: `label`, `start`, `comfyui` and `torch` versions, `device`, `server_args`, `width`, `height`, `steps`, `sampler`, `rep`, `steps_per_s` (parsed from the sampler's tqdm line in the server log), `sampling_s` (KSampler start to VAEDecode start, over the websocket), `decode_s`, `total_s`. The server log for each invocation sits next to the CSV.

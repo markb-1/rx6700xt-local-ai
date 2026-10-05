@@ -1,0 +1,210 @@
+[32m[INFO][0m setup plugin alembic.autogenerate.schemas
+[32m[INFO][0m setup plugin alembic.autogenerate.tables
+[32m[INFO][0m setup plugin alembic.autogenerate.types
+[32m[INFO][0m setup plugin alembic.autogenerate.constraints
+[32m[INFO][0m setup plugin alembic.autogenerate.defaults
+[32m[INFO][0m setup plugin alembic.autogenerate.comments
+[32m[INFO][0m setup plugin alembic.ext.checkconstraint_byname
+[1m[33m[WARNING][0m On windows we are currently forcing single GPU mode in ComfyUI due to a Nvidia related issue, if you want to disable this use: --cuda-device all
+[32m[INFO][0m Adding extra search path checkpoints C:\Code\rx6700xt-local-ai\models
+[32m[INFO][0m Setting output directory to: C:\Code\rx6700xt-local-ai\results\comfyui\images
+[32m[INFO][0m Found comfy_kitchen backend triton: {'available': False, 'disabled': True, 'unavailable_reason': "ImportError: No module named 'triton'", 'capabilities': []}
+[32m[INFO][0m Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['adaln', 'apply_rope', 'apply_rope1', 'apply_rope1_', 'apply_rope_', 'apply_rope_split_half', 'apply_rope_split_half1', 'apply_rope_split_half1_', 'apply_rope_split_half_', 'convrot_w4a4_linear', 'dequantize_convrot_w4a4_weight', 'dequantize_int8_convrot_weight', 'dequantize_int8_convrot_weight_dtype', 'dequantize_int8_embedding', 'dequantize_int8_simple', 'dequantize_int8_simple_dtype', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'dequantize_w4a8_int8_weight', 'fp16_conv3d', 'fp16_conv3d_out', 'fp16_linear', 'gemv_awq_w4a16', 'group_norm_silu_pad3d', 'group_norm_silu_pad3d_out', 'int8_linear', 'na3d', 'prepare_int4_weight_for_int8_linear', 'quantize_and_rotate_rowwise', 'quantize_convrot_w4a4_weight', 'quantize_int8_convrot_weight', 'quantize_int8_rowwise', 'quantize_int8_tensorwise', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'quantize_svdquant_w4a4', 'quantize_w4a8_int8_weight', 'rms_adaln', 'rms_rope', 'rms_rope1', 'rms_rope1_', 'rms_rope_', 'rms_rope_split_half', 'rms_rope_split_half1', 'rms_rope_split_half1_', 'rms_rope_split_half_', 'rotate_int8_convrot_weight', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4', 'scaled_mm_svdquant_w4a4', 'sol_attn', 'stochastic_rounding_fp8', 'w4a8_int8_linear']}
+[32m[INFO][0m Found comfy_kitchen backend cuda: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['adaln', 'apply_rope', 'apply_rope1', 'apply_rope1_', 'apply_rope_', 'apply_rope_split_half', 'apply_rope_split_half1', 'apply_rope_split_half1_', 'apply_rope_split_half_', 'convrot_w4a4_linear', 'dequantize_convrot_w4a4_weight', 'dequantize_int8_convrot_weight', 'dequantize_int8_convrot_weight_dtype', 'dequantize_int8_simple', 'dequantize_int8_simple_dtype', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'dequantize_w4a8_int8_weight', 'fp16_conv3d', 'fp16_conv3d_out', 'fp16_linear', 'gemv_awq_w4a16', 'group_norm_silu_pad3d', 'group_norm_silu_pad3d_out', 'na3d', 'prepare_int4_weight_for_int8_linear', 'quantize_and_rotate_rowwise', 'quantize_convrot_w4a4_weight', 'quantize_int8_convrot_weight', 'quantize_int8_rowwise', 'quantize_int8_tensorwise', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'quantize_svdquant_w4a4', 'quantize_w4a8_int8_weight', 'rms_adaln', 'rms_rope', 'rms_rope1', 'rms_rope1_', 'rms_rope_', 'rms_rope_split_half', 'rms_rope_split_half1', 'rms_rope_split_half1_', 'rms_rope_split_half_', 'rotate_int8_convrot_weight', 'scaled_mm_svdquant_w4a4', 'sol_attn', 'stochastic_rounding_fp8', 'w4a8_int8_linear']}
+[32m[INFO][0m Found comfy_kitchen backend ascend: {'available': False, 'disabled': False, 'unavailable_reason': "torch-npu is not installed: No module named 'torch_npu'", 'capabilities': []}
+[32m[INFO][0m Found comfy_kitchen backend hip: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['adaln', 'apply_rope', 'apply_rope1', 'apply_rope1_', 'apply_rope_', 'apply_rope_split_half', 'apply_rope_split_half1', 'apply_rope_split_half1_', 'apply_rope_split_half_', 'dequantize_convrot_w4a4_weight', 'dequantize_int8_convrot_weight_dtype', 'dequantize_int8_simple_dtype', 'dequantize_per_tensor_fp8', 'dequantize_w4a8_int8_weight', 'gemv_awq_w4a16', 'group_norm_silu_pad3d', 'group_norm_silu_pad3d_out', 'quantize_and_rotate_rowwise', 'quantize_convrot_w4a4_weight', 'quantize_int8_convrot_weight', 'quantize_int8_rowwise', 'quantize_int8_tensorwise', 'quantize_per_tensor_fp8', 'quantize_svdquant_w4a4', 'quantize_w4a8_int8_weight', 'rms_adaln', 'rms_rope', 'rms_rope1', 'rms_rope1_', 'rms_rope_', 'rms_rope_split_half', 'rms_rope_split_half1', 'rms_rope_split_half1_', 'rms_rope_split_half_', 'stochastic_rounding_fp8']}
+[32m[INFO][0m Checkpoint files will always be loaded safely.
+[32m[INFO][0m Total VRAM 12272 MB, total RAM 32694 MB
+[32m[INFO][0m pytorch version: 2.9.1+rocm7.13.0
+[32m[INFO][0m AMD arch: gfx1031
+[32m[INFO][0m ROCm version: (7, 13)
+[32m[INFO][0m Set vram state to: NORMAL_VRAM
+[32m[INFO][0m Device: cuda:0 AMD Radeon RX 6700 XT : native
+[32m[INFO][0m Using async weight offloading with 2 streams
+[32m[INFO][0m Enabled pinned memory 13077.0
+[32m[INFO][0m Using pytorch attention
+[32m[INFO][0m Python version: 3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]
+[32m[INFO][0m ComfyUI version: 0.38.0
+[32m[INFO][0m comfy-aimdo version: 0.5.5
+[32m[INFO][0m comfy-kitchen version: 0.2.37
+[32m[INFO][0m comfyui-frontend-package version: 1.53.10
+[32m[INFO][0m comfyui-workflow-templates version: 0.11.76
+[32m[INFO][0m comfyui-embedded-docs version: 0.5.13
+[32m[INFO][0m comfy-kitchen version: 0.2.37
+[32m[INFO][0m comfy-aimdo version: 0.5.5
+[32m[INFO][0m [Prompt Server] web root: C:\Code\rx6700xt-local-ai\bin\comfyui\.venv\Lib\site-packages\comfyui_frontend_package\static
+[32m[INFO][0m Asset seeder disabled
+[32m[INFO][0m No OpenGL_accelerate module loaded: No module named 'OpenGL_accelerate'
+[32m[INFO][0m 
+Import times for custom nodes:
+[32m[INFO][0m    0.0 seconds: C:\Code\rx6700xt-local-ai\src\ComfyUI\custom_nodes\websocket_image_save.py
+[32m[INFO][0m 
+[32m[INFO][0m Disabling intermediate node cache.
+[32m[INFO][0m Starting server
+
+[32m[INFO][0m To see the GUI go to: http://127.0.0.1:8188
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10702.36 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10368.70 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|5         | 1/20 [00:00<00:12,  1.49it/s] 10%|#         | 2/20 [00:00<00:06,  2.61it/s] 15%|#5        | 3/20 [00:01<00:04,  3.42it/s] 20%|##        | 4/20 [00:01<00:03,  4.02it/s] 25%|##5       | 5/20 [00:01<00:03,  4.44it/s] 30%|###       | 6/20 [00:01<00:02,  4.74it/s] 35%|###5      | 7/20 [00:01<00:02,  4.96it/s] 40%|####      | 8/20 [00:01<00:02,  5.09it/s] 45%|####5     | 9/20 [00:02<00:02,  5.21it/s] 50%|#####     | 10/20 [00:02<00:01,  5.28it/s] 55%|#####5    | 11/20 [00:02<00:01,  5.34it/s] 60%|######    | 12/20 [00:02<00:01,  5.37it/s] 65%|######5   | 13/20 [00:02<00:01,  5.40it/s] 70%|#######   | 14/20 [00:03<00:01,  5.43it/s] 75%|#######5  | 15/20 [00:03<00:00,  5.43it/s] 80%|########  | 16/20 [00:03<00:00,  5.45it/s] 85%|########5 | 17/20 [00:03<00:00,  5.44it/s] 90%|######### | 18/20 [00:03<00:00,  5.51it/s] 95%|#########5| 19/20 [00:03<00:00,  5.45it/s]100%|##########| 20/20 [00:04<00:00,  5.45it/s]100%|##########| 20/20 [00:04<00:00,  4.82it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m loaded completely; 4018.19 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 6.65 seconds[0m
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10449.80 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10122.45 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|5         | 1/20 [00:00<00:04,  4.24it/s] 10%|#         | 2/20 [00:00<00:03,  4.90it/s] 15%|#5        | 3/20 [00:00<00:03,  5.13it/s] 20%|##        | 4/20 [00:00<00:03,  5.26it/s] 25%|##5       | 5/20 [00:00<00:02,  5.32it/s] 30%|###       | 6/20 [00:01<00:02,  5.38it/s] 35%|###5      | 7/20 [00:01<00:02,  5.40it/s] 40%|####      | 8/20 [00:01<00:02,  5.42it/s] 45%|####5     | 9/20 [00:01<00:02,  5.41it/s] 50%|#####     | 10/20 [00:01<00:01,  5.42it/s] 55%|#####5    | 11/20 [00:02<00:01,  5.45it/s] 60%|######    | 12/20 [00:02<00:01,  5.45it/s] 65%|######5   | 13/20 [00:02<00:01,  5.46it/s] 70%|#######   | 14/20 [00:02<00:01,  5.44it/s] 75%|#######5  | 15/20 [00:02<00:00,  5.44it/s] 80%|########  | 16/20 [00:02<00:00,  5.47it/s] 85%|########5 | 17/20 [00:03<00:00,  5.44it/s] 90%|######### | 18/20 [00:03<00:00,  5.45it/s] 95%|#########5| 19/20 [00:03<00:00,  5.46it/s]100%|##########| 20/20 [00:03<00:00,  5.47it/s]100%|##########| 20/20 [00:03<00:00,  5.38it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m loaded completely; 3982.16 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 5.13 seconds[0m
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10449.80 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10212.45 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|5         | 1/20 [00:00<00:03,  5.31it/s] 10%|#         | 2/20 [00:00<00:03,  5.39it/s] 15%|#5        | 3/20 [00:00<00:03,  5.42it/s] 20%|##        | 4/20 [00:00<00:02,  5.44it/s] 25%|##5       | 5/20 [00:00<00:02,  5.46it/s] 30%|###       | 6/20 [00:01<00:02,  5.46it/s] 35%|###5      | 7/20 [00:01<00:02,  5.45it/s] 40%|####      | 8/20 [00:01<00:02,  5.46it/s] 45%|####5     | 9/20 [00:01<00:02,  5.46it/s] 50%|#####     | 10/20 [00:01<00:01,  5.48it/s] 55%|#####5    | 11/20 [00:02<00:01,  5.46it/s] 60%|######    | 12/20 [00:02<00:01,  5.46it/s] 65%|######5   | 13/20 [00:02<00:01,  5.44it/s] 70%|#######   | 14/20 [00:02<00:01,  5.46it/s] 75%|#######5  | 15/20 [00:02<00:00,  5.46it/s] 80%|########  | 16/20 [00:02<00:00,  5.45it/s] 85%|########5 | 17/20 [00:03<00:00,  5.47it/s] 90%|######### | 18/20 [00:03<00:00,  5.45it/s] 95%|#########5| 19/20 [00:03<00:00,  5.46it/s]100%|##########| 20/20 [00:03<00:00,  5.45it/s]100%|##########| 20/20 [00:03<00:00,  5.45it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m loaded completely; 4018.96 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 5.25 seconds[0m
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10449.80 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10212.45 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s] 10%|#         | 2/20 [00:00<00:03,  5.23it/s] 15%|#5        | 3/20 [00:00<00:03,  5.33it/s] 20%|##        | 4/20 [00:00<00:02,  5.38it/s] 25%|##5       | 5/20 [00:00<00:02,  5.40it/s] 30%|###       | 6/20 [00:01<00:02,  5.44it/s] 35%|###5      | 7/20 [00:01<00:02,  5.44it/s] 40%|####      | 8/20 [00:01<00:02,  5.46it/s] 45%|####5     | 9/20 [00:01<00:02,  5.46it/s] 50%|#####     | 10/20 [00:01<00:01,  5.45it/s] 55%|#####5    | 11/20 [00:02<00:01,  5.45it/s] 60%|######    | 12/20 [00:02<00:01,  5.46it/s] 65%|######5   | 13/20 [00:02<00:01,  5.46it/s] 70%|#######   | 14/20 [00:02<00:01,  5.47it/s] 75%|#######5  | 15/20 [00:02<00:00,  5.48it/s] 80%|########  | 16/20 [00:02<00:00,  5.48it/s] 85%|########5 | 17/20 [00:03<00:00,  5.45it/s] 90%|######### | 18/20 [00:03<00:00,  5.47it/s] 95%|#########5| 19/20 [00:03<00:00,  5.47it/s]100%|##########| 20/20 [00:03<00:00,  5.46it/s]100%|##########| 20/20 [00:03<00:00,  5.44it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m loaded completely; 3993.36 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 5.19 seconds[0m
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10385.80 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10148.45 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s] 10%|#         | 2/20 [00:00<00:03,  5.39it/s] 15%|#5        | 3/20 [00:00<00:03,  5.37it/s] 20%|##        | 4/20 [00:00<00:02,  5.38it/s] 25%|##5       | 5/20 [00:00<00:02,  5.40it/s] 30%|###       | 6/20 [00:01<00:02,  5.41it/s] 35%|###5      | 7/20 [00:01<00:02,  5.44it/s] 40%|####      | 8/20 [00:01<00:02,  5.45it/s] 45%|####5     | 9/20 [00:01<00:02,  5.45it/s] 50%|#####     | 10/20 [00:01<00:01,  5.45it/s] 55%|#####5    | 11/20 [00:02<00:01,  5.46it/s] 60%|######    | 12/20 [00:02<00:01,  5.45it/s] 65%|######5   | 13/20 [00:02<00:01,  5.45it/s] 70%|#######   | 14/20 [00:02<00:01,  5.46it/s] 75%|#######5  | 15/20 [00:02<00:00,  5.46it/s] 80%|########  | 16/20 [00:02<00:00,  5.48it/s] 85%|########5 | 17/20 [00:03<00:00,  5.46it/s] 90%|######### | 18/20 [00:03<00:00,  5.46it/s] 95%|#########5| 19/20 [00:03<00:00,  5.45it/s]100%|##########| 20/20 [00:03<00:00,  5.47it/s]100%|##########| 20/20 [00:03<00:00,  5.44it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m loaded completely; 3993.36 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 5.17 seconds[0m
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10385.80 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10148.45 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s] 10%|#         | 2/20 [00:00<00:03,  5.47it/s] 15%|#5        | 3/20 [00:00<00:03,  5.47it/s] 20%|##        | 4/20 [00:00<00:02,  5.46it/s] 25%|##5       | 5/20 [00:00<00:02,  5.49it/s] 30%|###       | 6/20 [00:01<00:02,  5.45it/s] 35%|###5      | 7/20 [00:01<00:02,  5.46it/s] 40%|####      | 8/20 [00:01<00:02,  5.47it/s] 45%|####5     | 9/20 [00:01<00:01,  5.54it/s] 50%|#####     | 10/20 [00:01<00:01,  5.44it/s] 55%|#####5    | 11/20 [00:02<00:01,  5.44it/s] 60%|######    | 12/20 [00:02<00:01,  5.46it/s] 65%|######5   | 13/20 [00:02<00:01,  5.47it/s] 70%|#######   | 14/20 [00:02<00:01,  5.50it/s] 75%|#######5  | 15/20 [00:02<00:00,  5.45it/s] 80%|########  | 16/20 [00:02<00:00,  5.47it/s] 85%|########5 | 17/20 [00:03<00:00,  5.47it/s] 90%|######### | 18/20 [00:03<00:00,  5.48it/s] 95%|#########5| 19/20 [00:03<00:00,  5.47it/s]100%|##########| 20/20 [00:03<00:00,  5.47it/s]100%|##########| 20/20 [00:03<00:00,  5.47it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m loaded completely; 3993.36 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 5.19 seconds[0m
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10385.80 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10148.45 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|5         | 1/20 [00:01<00:32,  1.72s/it] 10%|#         | 2/20 [00:03<00:26,  1.47s/it] 15%|#5        | 3/20 [00:03<00:19,  1.15s/it] 20%|##        | 4/20 [00:04<00:15,  1.00it/s] 25%|##5       | 5/20 [00:05<00:13,  1.10it/s] 30%|###       | 6/20 [00:06<00:12,  1.16it/s] 35%|###5      | 7/20 [00:06<00:10,  1.21it/s] 40%|####      | 8/20 [00:07<00:10,  1.14it/s] 45%|####5     | 9/20 [00:08<00:09,  1.19it/s] 50%|#####     | 10/20 [00:09<00:08,  1.22it/s] 55%|#####5    | 11/20 [00:10<00:07,  1.25it/s] 60%|######    | 12/20 [00:10<00:06,  1.27it/s] 65%|######5   | 13/20 [00:11<00:05,  1.28it/s] 70%|#######   | 14/20 [00:12<00:04,  1.29it/s] 75%|#######5  | 15/20 [00:13<00:04,  1.19it/s] 80%|########  | 16/20 [00:14<00:03,  1.23it/s] 85%|########5 | 17/20 [00:14<00:02,  1.25it/s] 90%|######### | 18/20 [00:15<00:01,  1.27it/s] 95%|#########5| 19/20 [00:16<00:00,  1.28it/s]100%|##########| 20/20 [00:17<00:00,  1.29it/s]100%|##########| 20/20 [00:17<00:00,  1.16it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m 0 models unloaded.
+[32m[INFO][0m loaded completely; 4722.00 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 20.20 seconds[0m
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10385.80 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10148.45 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|5         | 1/20 [00:01<00:23,  1.21s/it] 10%|#         | 2/20 [00:02<00:18,  1.03s/it] 15%|#5        | 3/20 [00:03<00:18,  1.07s/it] 20%|##        | 4/20 [00:04<00:15,  1.00it/s] 25%|##5       | 5/20 [00:05<00:14,  1.04it/s] 30%|###       | 6/20 [00:05<00:13,  1.06it/s] 35%|###5      | 7/20 [00:06<00:12,  1.08it/s] 40%|####      | 8/20 [00:07<00:10,  1.09it/s] 45%|####5     | 9/20 [00:08<00:10,  1.03it/s] 50%|#####     | 10/20 [00:09<00:09,  1.05it/s] 55%|#####5    | 11/20 [00:10<00:08,  1.07it/s] 60%|######    | 12/20 [00:11<00:07,  1.09it/s] 65%|######5   | 13/20 [00:12<00:06,  1.10it/s] 70%|#######   | 14/20 [00:13<00:05,  1.10it/s] 75%|#######5  | 15/20 [00:14<00:04,  1.02it/s] 80%|########  | 16/20 [00:15<00:03,  1.05it/s] 85%|########5 | 17/20 [00:16<00:02,  1.07it/s] 90%|######### | 18/20 [00:17<00:01,  1.08it/s] 95%|#########5| 19/20 [00:18<00:00,  1.09it/s]100%|##########| 20/20 [00:19<00:00,  1.03it/s]100%|##########| 20/20 [00:19<00:00,  1.05it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m 0 models unloaded.
+[32m[INFO][0m loaded completely; 4722.00 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 21.54 seconds[0m
+[32m[INFO][0m got prompt
+[32m[INFO][0m model weight dtype torch.float16, manual cast: None
+[32m[INFO][0m model_type EPS
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m Using split attention in VAE
+[32m[INFO][0m VAE load device: cuda:0, offload device: cpu, dtype: torch.float32
+[32m[INFO][0m Model storage policy: fast_disk=True paths=['C:\\Code\\rx6700xt-local-ai\\models\\v1-5-pruned-emaonly-fp16.safetensors']
+[32m[INFO][0m CLIP/text encoder model load device: cuda:0, offload device: cpu, current: cpu, dtype: torch.float16
+[32m[INFO][0m Requested to load SD1ClipModel
+[32m[INFO][0m loaded completely; 10385.80 MB usable, 235.84 MB loaded, full load: True
+[32m[INFO][0m Requested to load BaseModel
+[32m[INFO][0m loaded completely; 10148.45 MB usable, 1639.41 MB loaded, full load: True
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|5         | 1/20 [00:01<00:23,  1.22s/it] 10%|#         | 2/20 [00:02<00:18,  1.03s/it] 15%|#5        | 3/20 [00:03<00:16,  1.03it/s] 20%|##        | 4/20 [00:03<00:15,  1.07it/s] 25%|##5       | 5/20 [00:04<00:13,  1.08it/s] 30%|###       | 6/20 [00:05<00:12,  1.10it/s] 35%|###5      | 7/20 [00:06<00:11,  1.10it/s] 40%|####      | 8/20 [00:07<00:10,  1.11it/s] 45%|####5     | 9/20 [00:08<00:09,  1.11it/s] 50%|#####     | 10/20 [00:09<00:08,  1.12it/s] 55%|#####5    | 11/20 [00:10<00:08,  1.11it/s] 60%|######    | 12/20 [00:11<00:07,  1.12it/s] 65%|######5   | 13/20 [00:11<00:06,  1.12it/s] 70%|#######   | 14/20 [00:12<00:05,  1.12it/s] 75%|#######5  | 15/20 [00:13<00:04,  1.12it/s] 80%|########  | 16/20 [00:14<00:03,  1.12it/s] 85%|########5 | 17/20 [00:15<00:02,  1.12it/s] 90%|######### | 18/20 [00:16<00:01,  1.12it/s] 95%|#########5| 19/20 [00:17<00:00,  1.12it/s]100%|##########| 20/20 [00:18<00:00,  1.12it/s]100%|##########| 20/20 [00:18<00:00,  1.10it/s]
+[32m[INFO][0m Requested to load AutoencoderKL
+[32m[INFO][0m 0 models unloaded.
+[32m[INFO][0m loaded completely; 4722.00 MB usable, 319.11 MB loaded, full load: True
+[32m[INFO][0m [32mPrompt executed in 20.80 seconds[0m

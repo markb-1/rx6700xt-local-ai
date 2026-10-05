@@ -22,9 +22,9 @@ Status key: **works** means tested here and usable. **works\*** means it needs a
 | Ollama | ROCm | Windows 11 | fails | 0.6.7 | Stock build falls back to CPU, forced ROCm fails with `RMS_NORM failed`. Retest with patched rocBLAS pending |
 | Ollama | ROCm + patched rocBLAS | Windows 11 | untested | | Community `gfx1031` libraries |
 | koboldcpp-rocm | ROCm + patched rocBLAS | Windows 11 | untested | | |
-| ComfyUI | ROCm (HIP) | Windows 11 | untested | | Should follow from the PyTorch row. Next up |
-| ComfyUI | DirectML | Windows 11 | untested | | torch-directml |
-| ComfyUI | ZLUDA | Windows 11 | untested | | Needs patched rocBLAS too |
+| ComfyUI | ROCm (HIP) | Windows 11 | **works\*** | 0.38.0 | On the PyTorch row's torch build. SD 1.5 at 7.0 steps/s at 512x512, 2x stable-diffusion.cpp. First run per resolution is slow while MIOpen tunes. [Setup](docs/setup/comfyui-rocm-windows.md) |
+| ComfyUI | DirectML | Windows 11 | untested | | torch-directml. Moot now that ROCm works |
+| ComfyUI | ZLUDA | Windows 11 | untested | | Needs patched rocBLAS too. Moot now that ROCm works |
 | PyTorch | ROCm (HIP) | Windows 11 | **works\*** | 2.9.1+rocm7.13.0 | AMD's wheel index has Windows torch builds with `gfx1031` kernels. fp16 GEMM at 21 TFLOPS, training works. Versions must be pinned by hand. [Setup](docs/setup/pytorch-rocm-windows.md) |
 | PyTorch | DirectML | Windows 11 | untested | | Probably moot now that ROCm works |
 | llama.cpp | ROCm (HIP) | Linux | untested | | `HSA_OVERRIDE_GFX_VERSION=10.3.0` |
@@ -129,6 +129,25 @@ Takeaways:
 
 Raw data: [results/pytorch/2026-10-05-torch-bench.csv](results/pytorch/2026-10-05-torch-bench.csv).
 
+### ComfyUI 0.38.0 on ROCm, Windows, Stable Diffusion 1.5 fp16
+
+Same checkpoint, prompt, seed and step count as the stable-diffusion.cpp rows, driven headlessly through the API by `scripts/comfyui/bench.py`. 3 runs per config, steps/s from the sampler's progress counter, total from prompt submission to image saved.
+
+| Config | Steps/s | Total per image | sd.cpp ROCm best | sd.cpp Vulkan best |
+|--------|--------:|----------------:|-----------------:|-------------------:|
+| 512x512, euler_ancestral, 20 steps | 7.0 | 4.4 s | 3.28 | 2.08 |
+| 512x512, same, `--fp16-vae` | 7.0 | 4.2 s | | |
+| 768x768, euler_ancestral, 20 steps | 2.27 | 11.2 s | 1.18 | 0.79 |
+| 768x768, same, `--fp16-vae` | 2.27 | 10.3 s | | |
+
+Takeaways:
+
+- ComfyUI on PyTorch is 2x stable-diffusion.cpp on the same HIP runtime and the same weights. rocBLAS and MIOpen carry tuned kernels for this card; ggml's HIP kernels do not.
+- Keep ComfyUI's default attention. `--use-pytorch-cross-attention`, the usual AMD advice, is 23% slower at 512 and 2x slower at 768 here. `--fp16-vae` is a free win for decode.
+- The first generation at each new resolution takes minutes, nearly all in VAE decode, while MIOpen searches for kernels. It caches the result under `~/.miopen/` and never repeats it for that shape.
+
+Samples: [512x512](results/comfyui/images/sample-sd15-512-euler_a-20-comfyui.png) and [768x768](results/comfyui/images/sample-sd15-768-euler_a-20-comfyui.png). Raw data: [results/comfyui/2026-10-05-comfyui-bench.csv](results/comfyui/2026-10-05-comfyui-bench.csv).
+
 ### whisper.cpp b5130, Vulkan versus CPU, JFK clip (11 s of speech)
 
 Vulkan build compiled from source, CPU build from the prebuilt zip, 8 threads, 3 runs each. Vulkan numbers are the warm runs; the first Vulkan run of a session pays a one-off shader compile of about 2.5 s.
@@ -177,13 +196,11 @@ bin/, models/           git-ignored; binaries and model files live here locally
 
 ## Roadmap
 
-1. ComfyUI on the ROCm PyTorch build from the row above, without DirectML or ZLUDA.
-2. Test SDXL on stable-diffusion.cpp, ROCm and Vulkan, now that the 768x768 cliff is explained.
-3. Fill the remaining Windows Vulkan rows: LM Studio, koboldcpp.
-4. Retest Ollama and koboldcpp-rocm with `gfx1031` rocBLAS libraries. AMD's own `rocm-sdk-device-gfx1031` wheel may replace the community-patched bundles here too.
-5. ZLUDA and DirectML for ComfyUI.
-6. Linux dual boot with the `10.3.0` override: llama.cpp HIP, and PyTorch for a Linux-versus-Windows comparison now that both work.
-7. Profile llama.cpp's Vulkan fallback matmul shaders on RDNA2 and report upstream.
+1. SDXL on ComfyUI ROCm and on stable-diffusion.cpp, ROCm and Vulkan.
+2. Fill the remaining Windows Vulkan rows: LM Studio, koboldcpp.
+3. Retest Ollama and koboldcpp-rocm with `gfx1031` rocBLAS libraries. AMD's own `rocm-sdk-device-gfx1031` wheel may replace the community-patched bundles here too.
+4. Linux dual boot with the `10.3.0` override: llama.cpp HIP, and PyTorch for a Linux-versus-Windows comparison now that both work.
+5. Profile llama.cpp's Vulkan fallback matmul shaders on RDNA2 and report upstream.
 
 ## Contributing
 

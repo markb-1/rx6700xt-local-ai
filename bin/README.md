@@ -26,3 +26,13 @@ bin/
 ```
 
 See `docs/setup/stable-diffusion-cpp-rocm.md` and `scripts/sdcpp/rocm-env.ps1`.
+
+ComfyUI lives in `src/ComfyUI/` (git-ignored) with its venv here:
+
+```
+bin/
+  comfyui/
+    .venv/                    pinned ROCm torch stack plus ComfyUI requirements, about 4.8 GB
+    constraints.txt           keeps pip from replacing the ROCm torch with the PyPI CPU build
+    extra_model_paths.yaml    points ComfyUI at models/ in this repo
+```
