@@ -1,0 +1,13 @@
+start,torch,hip,device,test,metric,value,status,notes
+2026-10-05T12:02:45,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,device,available,1,ok,"gfx1031, 12272 MiB"
+2026-10-05T12:02:46,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,matmul-vs-cpu,maxdiff,9.2e-05,ok,fp32 512x512
+2026-10-05T12:02:46,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,backward,ok,1,ok,d/dx sum(x^2) == 2x
+2026-10-05T12:02:46,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,gemm-4096-fp16,TFLOPS,21.02,ok,"6.5 ms per matmul, 10 reps"
+2026-10-05T12:02:46,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,gemm-4096-fp32,TFLOPS,11.49,ok,"12.0 ms per matmul, 10 reps"
+2026-10-05T12:02:46,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,gemm-4096-bf16,TFLOPS,5.96,ok,"23.0 ms per matmul, 10 reps"
+2026-10-05T12:02:47,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,conv3x3-128ch-256px-fp16,ms,0.7,ok,"10 reps, no grad"
+2026-10-05T12:02:48,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,train-step-mlp-fp32,ms,2.88,ok,"batch 256, Adam, 10 reps"
+2026-10-05T12:02:48,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,resnet18-fwd-fp16-b8,ms,2.63,ok,torchvision 0.24.0+rocm7.13.0
+2026-10-05T12:02:49,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,resnet18-train-fp32-b8,ms,20.99,ok,"torchvision 0.24.0+rocm7.13.0, SGD"
+2026-10-05T12:02:49,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,torchvision-nms,ok,1,ok,"custom op on device, keep=[0, 2]"
+2026-10-05T12:02:49,2.9.1+rocm7.13.0,7.13.99004-3309c611,AMD Radeon RX 6700 XT,peak-allocated,MB,442,ok,

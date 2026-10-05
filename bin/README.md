@@ -21,6 +21,8 @@ bin/
     master-929-rocm/    sd-cli.exe, stable-diffusion.dll (needs the venv below on PATH)
   therock-7.14.0/
     .venv/              pip install of rocm[libraries]==7.14.0 and rocm-sdk-device-gfx1031, about 2.8 GB
+  therock-torch/
+    .venv/              torch 2.9.1+rocm7.13.0 and torchvision with their gfx1031 device packages, about 3.5 GB
 ```
 
 See `docs/setup/stable-diffusion-cpp-rocm.md` and `scripts/sdcpp/rocm-env.ps1`.

@@ -22,10 +22,11 @@ Status key: **works** means tested here and usable. **works\*** means it needs a
 | Ollama | ROCm | Windows 11 | fails | 0.6.7 | Stock build falls back to CPU, forced ROCm fails with `RMS_NORM failed`. Retest with patched rocBLAS pending |
 | Ollama | ROCm + patched rocBLAS | Windows 11 | untested | | Community `gfx1031` libraries |
 | koboldcpp-rocm | ROCm + patched rocBLAS | Windows 11 | untested | | |
+| ComfyUI | ROCm (HIP) | Windows 11 | untested | | Should follow from the PyTorch row. Next up |
 | ComfyUI | DirectML | Windows 11 | untested | | torch-directml |
 | ComfyUI | ZLUDA | Windows 11 | untested | | Needs patched rocBLAS too |
-| PyTorch | DirectML | Windows 11 | untested | | |
-| PyTorch | ROCm | Windows 11 | fails | | No HIP SDK for `gfx1031`. Not fixable without rebuilding ROCm |
+| PyTorch | ROCm (HIP) | Windows 11 | **works\*** | 2.9.1+rocm7.13.0 | AMD's wheel index has Windows torch builds with `gfx1031` kernels. fp16 GEMM at 21 TFLOPS, training works. Versions must be pinned by hand. [Setup](docs/setup/pytorch-rocm-windows.md) |
+| PyTorch | DirectML | Windows 11 | untested | | Probably moot now that ROCm works |
 | llama.cpp | ROCm (HIP) | Linux | untested | | `HSA_OVERRIDE_GFX_VERSION=10.3.0` |
 | PyTorch | ROCm | Linux | untested | | Same override. Only route to real training on this card |
 | ComfyUI | ROCm | Linux | untested | | |
@@ -107,6 +108,27 @@ Takeaways:
 
 Sample output: [512x512 on ROCm](results/sdcpp/images/sample-sd15-512-euler_a-20-rocm.png). Raw data: [results/sdcpp/2026-10-05-sd15-rocm-bench.csv](results/sdcpp/2026-10-05-sd15-rocm-bench.csv).
 
+### PyTorch 2.9.1 on ROCm 7.13.0, Windows
+
+Installed from AMD's wheel index with the `gfx1031` device packages, no HIP SDK, no driver change. 10 reps per test. The [setup doc](docs/setup/pytorch-rocm-windows.md) has the pinned install command and the two version traps.
+
+| Test | Result |
+|------|-------:|
+| 4096x4096 GEMM, fp16 | 21.1 TFLOPS (card peak 26.4) |
+| 4096x4096 GEMM, fp32 | 11.5 TFLOPS (card peak 13.2) |
+| 4096x4096 GEMM, bf16 | 6.0 TFLOPS (no bf16 hardware on RDNA2) |
+| ResNet-18 forward, fp16, batch 8 | 2.6 ms |
+| ResNet-18 train step, fp32, batch 8 | 21.0 ms |
+| MLP train step, Adam, batch 256 | 2.9 ms |
+
+Takeaways:
+
+- This overturns the row that said PyTorch on ROCm was impossible on this card without Linux. rocBLAS reaches 80 to 87% of theoretical throughput, so these are tuned kernels, not fallbacks.
+- Use fp16 for mixed precision, not bf16.
+- MIOpen warns that its composable-kernel grouped-conv library is missing for `gfx1031`. Plain convolutions are fine; depthwise and grouped convs may be slower than on supported cards.
+
+Raw data: [results/pytorch/2026-10-05-torch-bench.csv](results/pytorch/2026-10-05-torch-bench.csv).
+
 ### whisper.cpp b5130, Vulkan versus CPU, JFK clip (11 s of speech)
 
 Vulkan build compiled from source, CPU build from the prebuilt zip, 8 threads, 3 runs each. Vulkan numbers are the warm runs; the first Vulkan run of a session pays a one-off shader compile of about 2.5 s.
@@ -155,12 +177,12 @@ bin/, models/           git-ignored; binaries and model files live here locally
 
 ## Roadmap
 
-1. PyTorch on ROCm on Windows via the same AMD wheel index that fixed stable-diffusion.cpp. It publishes `amd-torch-device-gfx1031`, which would overturn the "fails" row and open ComfyUI without DirectML or ZLUDA.
+1. ComfyUI on the ROCm PyTorch build from the row above, without DirectML or ZLUDA.
 2. Test SDXL on stable-diffusion.cpp, ROCm and Vulkan, now that the 768x768 cliff is explained.
 3. Fill the remaining Windows Vulkan rows: LM Studio, koboldcpp.
 4. Retest Ollama and koboldcpp-rocm with `gfx1031` rocBLAS libraries. AMD's own `rocm-sdk-device-gfx1031` wheel may replace the community-patched bundles here too.
 5. ZLUDA and DirectML for ComfyUI.
-6. Linux dual boot with the `10.3.0` override: llama.cpp HIP, PyTorch, ComfyUI.
+6. Linux dual boot with the `10.3.0` override: llama.cpp HIP, and PyTorch for a Linux-versus-Windows comparison now that both work.
 7. Profile llama.cpp's Vulkan fallback matmul shaders on RDNA2 and report upstream.
 
 ## Contributing

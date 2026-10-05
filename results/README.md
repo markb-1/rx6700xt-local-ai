@@ -36,3 +36,7 @@ File names: `YYYY-MM-DD-<model>-<what>.csv`.
 ## llama-bench CSV
 
 Each raw file is llama-bench `-o csv` output with two extra leading columns added by `scripts/llamacpp/sweep.ps1`: `label` (the config name) and `start` (local timestamp). The rest are llama-bench's own columns. The two that matter most are `n_prompt`/`n_gen` (which test the row is) and `avg_ts` (tokens per second).
+
+## PyTorch CSV
+
+`scripts/pytorch/bench.py` writes one row per test: `start`, `torch` (version string with the `+rocm` suffix), `hip` (runtime version), `device`, `test`, `metric`, `value`, `status` (`ok`, `fail`, `skip`) and `notes`. A failed test is still a row, with the exception text in `notes`.
