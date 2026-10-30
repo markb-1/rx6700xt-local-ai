@@ -26,9 +26,10 @@ Status key: **works** means tested here and usable. **works\*** means it needs a
 | ComfyUI | DirectML | Windows 11 | untested | | torch-directml. Moot now that ROCm works |
 | ComfyUI | ZLUDA | Windows 11 | untested | | Needs patched rocBLAS too. Moot now that ROCm works |
 | PyTorch | ROCm (HIP) | Windows 11 | **works\*** | 2.9.1+rocm7.13.0 | AMD's wheel index has Windows torch builds with `gfx1031` kernels. fp16 GEMM at 21 TFLOPS, training works. Versions must be pinned by hand. [Setup](docs/setup/pytorch-rocm-windows.md) |
+| transformers + PEFT (LoRA) | ROCm (HIP) | Windows 11 | **works\*** | peft 0.21.2, transformers 4.57.6 | On the PyTorch row's torch build. LoRA fine-tuning of 1.5B and 3B models in 12 GB; fp16 only, and 3B needs gradient checkpointing. Merged models convert to GGUF for llama.cpp. [Setup](docs/setup/lora-training-rocm-windows.md) |
 | PyTorch | DirectML | Windows 11 | untested | | Probably moot now that ROCm works |
 | llama.cpp | ROCm (HIP) | Linux | untested | | `HSA_OVERRIDE_GFX_VERSION=10.3.0` |
-| PyTorch | ROCm | Linux | untested | | Same override. Only route to real training on this card |
+| PyTorch | ROCm | Linux | untested | | Same override. For a Linux-versus-Windows comparison; no longer needed for training |
 | ComfyUI | ROCm | Linux | untested | | |
 | vLLM | ROCm | Linux | untested | | Expected to be hard |
 
@@ -104,7 +105,7 @@ Takeaways:
 - Flash attention flips sign between backends. On Vulkan it costs 40%; on HIP it gains 24% at 512 and 54% at 768. Use `--diffusion-fa` on ROCm, leave it off on Vulkan below 768.
 - `--vae-conv-direct` is the Vulkan fix for 768x768 but a trap on ROCm: decode goes from 1.6 s to 17.9 s. On ROCm just leave the VAE flags off.
 - HIP has no 2 GiB per-buffer cap, so 768x768 works as shipped with a 2.7 GB UNet buffer in VRAM.
-- The out-of-the-box failure was never about the card. AMD's HIP SDK still lists RX 6000 as unsupported, but the wheels the binary was built against include `gfx1031` rocBLAS kernels. The same index also carries PyTorch wheels for `gfx1031` on Windows, which is the next row to test.
+- The out-of-the-box failure was never about the card. AMD's HIP SDK still lists RX 6000 as unsupported, but the wheels the binary was built against include `gfx1031` rocBLAS kernels. The same index also carries PyTorch wheels for `gfx1031` on Windows; see the PyTorch row below.
 
 Sample output: [512x512 on ROCm](results/sdcpp/images/sample-sd15-512-euler_a-20-rocm.png). Raw data: [results/sdcpp/2026-10-05-sd15-rocm-bench.csv](results/sdcpp/2026-10-05-sd15-rocm-bench.csv).
 
@@ -201,6 +202,7 @@ bin/, models/           git-ignored; binaries and model files live here locally
 3. Retest Ollama and koboldcpp-rocm with `gfx1031` rocBLAS libraries. AMD's own `rocm-sdk-device-gfx1031` wheel may replace the community-patched bundles here too.
 4. Linux dual boot with the `10.3.0` override: llama.cpp HIP, and PyTorch for a Linux-versus-Windows comparison now that both work.
 5. Profile llama.cpp's Vulkan fallback matmul shaders on RDNA2 and report upstream.
+6. A LoRA training benchmark in `scripts/pytorch/` (steps per second and peak memory by model size, batch and checkpointing), so the LoRA row gets reproducible numbers.
 
 ## Contributing
 

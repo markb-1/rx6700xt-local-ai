@@ -58,9 +58,9 @@ Takeaways:
 
 ## What this opens up
 
-- **Training on this card on Windows.** Previously thought to need Linux with the gfx1030 override.
-- **ComfyUI on ROCm** instead of DirectML or ZLUDA. Next row to test. The MIOpen warning above is the thing to watch for in UNet-heavy workloads.
-- **Anything else on PyTorch**: whisper (the original), diffusers, transformers. All untested.
+- **Training on this card on Windows.** Previously thought to need Linux with the gfx1030 override. LoRA fine-tuning with transformers and PEFT works: [lora-training-rocm-windows.md](lora-training-rocm-windows.md).
+- **ComfyUI on ROCm** instead of DirectML or ZLUDA. Works: [comfyui-rocm-windows.md](comfyui-rocm-windows.md).
+- **Anything else on PyTorch**: whisper (the original), diffusers. Untested.
 
 ## Running the bench
 
